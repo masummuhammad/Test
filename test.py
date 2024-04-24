@@ -1,10 +1,49 @@
 import requests
 import base64
-
+import random
 import proxyReader
 import urllib3
 from capmonster_python import ImageToTextTask
 urllib3.disable_warnings()
+
+user_agents = [
+    # Mac
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_6_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0.2 Safari/605.1.15",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_6_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36",
+    # Windows
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0",
+    # Linux
+    "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:98.0) Gecko/20100101 Firefox/98.0",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36",
+    # Mac
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_6_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0.2 Safari/605.1.15",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_6_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36",
+    # Windows
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0",
+    # Linux
+    "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:98.0) Gecko/20100101 Firefox/98.0",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36",
+    # Mac
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_6_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0.2 Safari/605.1.15",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_6_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36",
+    # Windows
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0",
+    # Linux
+    "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:98.0) Gecko/20100101 Firefox/98.0",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36",
+    # Mac
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_6_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0.2 Safari/605.1.15",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_6_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36"
+]
+
+
+ 
+def get_random_user_agent():
+    return random.choice(user_agents)
+
 
 
 def get_new_token(email,password):
@@ -12,7 +51,7 @@ def get_new_token(email,password):
     captcha_headers = {
     "Access-Control-Request-Headers":
     "authorization,content-type,currentculture","Accept":"Accept: application/json, text/plain, */*","Accept-Encoding": "gzip, deflate, br","Accept-Language": "en-US,en;q=0.5","Connection": "close","Content-Type": "application/json;charset=utf-8",
-    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0"}
+    "User-Agent": get_random_user_agent()}
 
     res_data=requests.post(captcha_url, proxies=proxyReader.retriveProxy(),headers=captcha_headers,json={},verify=False).json()
     captcha_input=''
@@ -36,7 +75,7 @@ def get_new_token(email,password):
             get_new_token_headers = {
             "Access-Control-Request-Headers":
             "authorization,content-type,currentculture","Accept":"Accept: application/json, text/plain, */*","Accept-Encoding": "gzip, deflate, br","Accept-Language": "en-US,en;q=0.5","Connection": "close","Content-Type": "application/json;charset=utf-8",
-            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0"}
+            "User-Agent": get_random_user_agent()}
             data={"username":email,"password":password,"rememberMe":True,"captchaGuid":guid,"captchaText":captcha_input}
             header={"Accept":"application/json, text/plain, */*","Accept-Encoding":"gzip, deflate, br","Accept-Language":"en-US,en;q=0.5","Connection":"keep-alive","Content-Length":"157","Content-Type":"application/json","CurrentCulture":"en-US","Host":"ticketingweb.passo.com.tr","Origin":"https://www.passo.com.tr","Referer":"https://www.passo.com.tr/en/login","User-Agent":"Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0"}
             token_res = requests.post(get_new_token_url, proxies=proxyReader.retriveProxy(), headers=get_new_token_headers,json=data, verify=False)
