@@ -1,6 +1,7 @@
 import requests
 import base64
 import random
+import time
 import proxyReader
 import urllib3
 from capmonster_python import ImageToTextTask
@@ -49,10 +50,13 @@ def get_random_user_agent():
 def get_new_token(email,password):
     captcha_url = "https://ticketingweb.passo.com.tr/api/passoweb/getcaptcha"
     captcha_headers = {
-    "Access-Control-Request-Headers":
-    "authorization,content-type,currentculture","Accept":"Accept: application/json, text/plain, */*","Accept-Encoding": "gzip, deflate, br","Accept-Language": "en-US,en;q=0.5","Connection": "close","Content-Type": "application/json;charset=utf-8",
+    "Content-Type": "application/json",
+    "Authorization": "Bearer DHZHUMUdA8HUDTlgRWfY+lZQcha0OceuLSq44jFUUy8t5MjZ+bOyoxNfseZkWjUP/Vn2HJ5cLnfbhwPYvB/qZ7XnWMyVn8gTz5YeteZ+dUwxXXAV8uAKAKx7yC3GVusBpThRJJo2A4OqlZ2SEuxmI+wp8yNQwYPpRDzLAJSxuB0=",
+    "CurrentCulture": "en-US",
+    "Accept": "application/json, text/plain, */*",
     "User-Agent": get_random_user_agent()}
-
+    requests.get("https://www.passo.com.tr/TSPD/?type=22")
+    time.sleep(1)
     res_data=requests.post(captcha_url, proxies=proxyReader.retriveProxy(),headers=captcha_headers,json={},verify=False).json()
     captcha_input=''
     guid=''
@@ -73,11 +77,16 @@ def get_new_token(email,password):
             #########################################
             get_new_token_url = "https://ticketingweb.passo.com.tr/api/passoweb/login"
             get_new_token_headers = {
-            "Access-Control-Request-Headers":
-            "authorization,content-type,currentculture","Accept":"Accept: application/json, text/plain, */*","Accept-Encoding": "gzip, deflate, br","Accept-Language": "en-US,en;q=0.5","Connection": "close","Content-Type": "application/json;charset=utf-8",
-            "User-Agent": get_random_user_agent()}
+                "Content-Type": "application/json",
+                 "Authorization": "Bearer DHZHUMUdA8HUDTlgRWfY+lZQcha0OceuLSq44jFUUy8t5MjZ+bOyoxNfseZkWjUP/Vn2HJ5cLnfbhwPYvB/qZ7XnWMyVn8gTz5YeteZ+dUwxXXAV8uAKAKx7yC3GVusBpThRJJo2A4OqlZ2SEuxmI+wp8yNQwYPpRDzLAJSxuB0=",
+                "CurrentCulture": "en-US",
+                "Accept": "application/json, text/plain, */*" , 
+                "User-Agent": get_random_user_agent()}
             data={"username":email,"password":password,"rememberMe":True,"captchaGuid":guid,"captchaText":captcha_input}
             header={"Accept":"application/json, text/plain, */*","Accept-Encoding":"gzip, deflate, br","Accept-Language":"en-US,en;q=0.5","Connection":"keep-alive","Content-Length":"157","Content-Type":"application/json","CurrentCulture":"en-US","Host":"ticketingweb.passo.com.tr","Origin":"https://www.passo.com.tr","Referer":"https://www.passo.com.tr/en/login","User-Agent":"Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0"}
+            time.sleep(1)
+            requests.get("https://www.passo.com.tr/TSPD/?type=22")
+            time.sleep(3)
             token_res = requests.post(get_new_token_url, proxies=proxyReader.retriveProxy(), headers=get_new_token_headers,json=data, verify=False)
             
             
